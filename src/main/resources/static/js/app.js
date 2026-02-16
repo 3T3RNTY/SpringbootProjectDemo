@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const productList = document.getElementById('products');
             data.forEach(product => {
                 const productItem = document.createElement('li');
-                productItem.textContent = `${product.name} - $${product.price}`;
+                productItem.textContent = `${product.name} - ₺${product.price}`;
                 productList.appendChild(productItem);
             });
         })
