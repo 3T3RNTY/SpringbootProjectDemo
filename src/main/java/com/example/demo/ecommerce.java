@@ -9,3 +9,6 @@ public class ECommerce {
 		SpringApplication.run(ECommerce.class, args);
 	}
 }
+
+//mvn spring-boot:run
+//mvn clean install
