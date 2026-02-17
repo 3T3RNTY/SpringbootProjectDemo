@@ -7,8 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 @Entity
-@Table(name = "users")
-public class User{
+@Table(name = "customers")
+public class Customer{
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class User{
     private String name;
     private String password;
 
-    public User(){}
+    public Customer(){}
 
     public Long getId(){return id;}
     public void setId(Long id){this.id = id;}
