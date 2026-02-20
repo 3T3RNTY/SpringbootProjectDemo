@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepository;
@@ -24,5 +25,13 @@ public class CustomerService {
 
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    public Optional<Customer> loginCustomer(String name, String password) {
+        Optional<Customer> customer = customerRepository.findByName(name);
+        if (customer.isPresent() && customer.get().getPassword().equals(password)) {
+            return customer;
+        }
+        return Optional.empty();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.demo.model.Seller;
 import com.example.demo.repository.SellerRepository;
@@ -24,5 +25,13 @@ public class SellerService {
 
     public Seller createSeller(Seller seller) {
         return sellerRepository.save(seller);
+    }
+
+    public Optional<Seller> loginSeller(String name, String password) {
+        Optional<Seller> seller = sellerRepository.findByName(name);
+        if (seller.isPresent() && seller.get().getPassword().equals(password)) {
+            return seller;
+        }
+        return Optional.empty();
     }
 }

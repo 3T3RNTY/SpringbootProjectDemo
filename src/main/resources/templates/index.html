@@ -14,7 +14,15 @@
             </div>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <li><a href="/register" class="btn-register">Register</a></li>
+                <li th:if="${loggedInUser == null}"><a href="/login" class="btn-register">Login</a></li>
+                <li th:if="${loggedInUser == null}"><a href="/register" class="btn-register">Register</a></li>
+                <li th:if="${loggedInUser != null}">
+                    <span class="user-info">
+                        Welcome, <strong th:text="${loggedInUser}">User</strong> 
+                        <span th:if="${userType != null}" class="user-type">(<span th:text="${userType}">Type</span>)</span>
+                    </span>
+                </li>
+                <li th:if="${loggedInUser != null}"><a href="/logout" class="btn-logout">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -22,7 +30,8 @@
     <div class="container">
         <div class="hero-section">
             <h2>Welcome to Our Store</h2>
-            <p>Browse our products and register to become a customer</p>
+            <p th:if="${loggedInUser == null}">Browse our products and login or register to start shopping</p>
+            <p th:if="${loggedInUser != null}">Happy shopping, <strong th:text="${loggedInUser}">User</strong>!</p>
         </div>
 
         <section id="product-section">
