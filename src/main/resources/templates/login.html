@@ -5,6 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab-button {
+            padding: 12px 24px;
+            background-color: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+            border-bottom: 3px solid #4CAF50;
+        }
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+        .tab-button.active:hover {
+            background-color: #4CAF50;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -33,43 +66,78 @@
                     <span th:text="${errorMessage}">Error message</span>
                 </div>
 
-                <form th:action="@{/login}" method="post" class="registration-form">
-                    <div class="form-group">
-                        <label for="userType">Account Type:</label>
-                        <select id="userType" name="userType" required>
-                            <option value="">-- Select Account Type --</option>
-                            <option value="customer">Customer</option>
-                            <option value="seller">Seller</option>
-                        </select>
-                    </div>
+                <div class="tab-container">
+                    <button type="button" class="tab-button active" onclick="switchTab('customer')">Login as Customer</button>
+                    <button type="button" class="tab-button" onclick="switchTab('seller')">Login as Seller</button>
+                </div>
 
-                    <div class="form-group">
-                        <label for="name">Username:</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            placeholder="Enter your username"
-                            required
-                        />
-                    </div>
+                <!-- Customer Login Form -->
+                <div id="customer" class="tab-content active">
+                    <form th:action="@{/login}" method="post" class="registration-form">
+                        <input type="hidden" name="userType" value="customer" />
+                        
+                        <div class="form-group">
+                            <label for="customer-name">Username:</label>
+                            <input 
+                                type="text" 
+                                id="customer-name" 
+                                name="name" 
+                                placeholder="Enter your username"
+                                required
+                            />
+                        </div>
 
-                    <div class="form-group">
-                        <label for="password">Password:</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            placeholder="Enter your password"
-                            required
-                        />
-                    </div>
+                        <div class="form-group">
+                            <label for="customer-password">Password:</label>
+                            <input 
+                                type="password" 
+                                id="customer-password" 
+                                name="password" 
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
 
-                    <div class="form-actions">
-                        <button type="submit" class="btn-submit">Login</button>
-                        <a href="/" class="btn-cancel">Cancel</a>
-                    </div>
-                </form>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Login as Customer</button>
+                            <a href="/" class="btn-cancel">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Seller Login Form -->
+                <div id="seller" class="tab-content">
+                    <form th:action="@{/login}" method="post" class="registration-form">
+                        <input type="hidden" name="userType" value="seller" />
+                        
+                        <div class="form-group">
+                            <label for="seller-name">Username:</label>
+                            <input 
+                                type="text" 
+                                id="seller-name" 
+                                name="name" 
+                                placeholder="Enter your username"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="seller-password">Password:</label>
+                            <input 
+                                type="password" 
+                                id="seller-password" 
+                                name="password" 
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Login as Seller</button>
+                            <a href="/" class="btn-cancel">Cancel</a>
+                        </div>
+                    </form>
+                </div>
 
                 <p class="login-link">
                     Don't have an account? <a href="/register">Register here</a>
@@ -81,5 +149,27 @@
     <footer class="footer">
         <p>&copy; 2026 E-Commerce Store. All rights reserved.</p>
     </footer>
+
+    <script>
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Show the selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to the clicked button
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
