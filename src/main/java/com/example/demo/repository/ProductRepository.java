@@ -9,4 +9,5 @@ import com.example.demo.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByNameContaining(String keyword);
+    List<Product> findBySeller_Name(String sellerName);
 }

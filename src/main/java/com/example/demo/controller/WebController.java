@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -155,5 +157,71 @@ public class WebController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/seller/products")
+    public String sellerProducts(Model model, HttpSession session,
+                                 @RequestParam(required = false) String successMessage,
+                                 @RequestParam(required = false) String errorMessage) {
+        String userType = (String) session.getAttribute("userType");
+        if (!"Seller".equals(userType)) {
+            return "redirect:/login";
+        }
+
+        String sellerName = (String) session.getAttribute("loggedInUser");
+        model.addAttribute("products", productService.getProductsForSeller(sellerName));
+        model.addAttribute("loggedInUser", sellerName);
+        model.addAttribute("userType", userType);
+        model.addAttribute("successMessage", successMessage);
+        model.addAttribute("errorMessage", errorMessage);
+        return "seller-products";
+    }
+
+    @PostMapping("/seller/products/add")
+    public String addProductAsSeller(@RequestParam String name,
+                                     @RequestParam String description,
+                                     @RequestParam double price,
+                                     @RequestParam int stock,
+                                     HttpSession session,
+                                     RedirectAttributes redirectAttributes) {
+        String userType = (String) session.getAttribute("userType");
+        if (!"Seller".equals(userType)) {
+            return "redirect:/login";
+        }
+
+        if (name == null || name.isBlank()) {
+            redirectAttributes.addAttribute("errorMessage", "Product name is required.");
+            return "redirect:/seller/products";
+        }
+
+        Product product = new Product();
+        product.setName(name.trim());
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setStock(stock);
+        String sellerName = (String) session.getAttribute("loggedInUser");
+        productService.createProductForSeller(product, sellerName);
+
+        redirectAttributes.addAttribute("successMessage", "Product added successfully.");
+        return "redirect:/seller/products";
+    }
+
+    @PostMapping("/seller/products/{id}/delete")
+    public String deleteProductAsSeller(@PathVariable Long id,
+                                        HttpSession session,
+                                        RedirectAttributes redirectAttributes) {
+        String userType = (String) session.getAttribute("userType");
+        if (!"Seller".equals(userType)) {
+            return "redirect:/login";
+        }
+
+        try {
+            String sellerName = (String) session.getAttribute("loggedInUser");
+            productService.deleteProductForSeller(id, sellerName);
+            redirectAttributes.addAttribute("successMessage", "Product removed successfully.");
+        } catch (RuntimeException ex) {
+            redirectAttributes.addAttribute("errorMessage", ex.getMessage());
+        }
+        return "redirect:/seller/products";
     }
 }

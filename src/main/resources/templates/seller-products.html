@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-brand">
+            <h1>E-Commerce Store</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/seller/products">Manage Products</a></li>
+            <li th:if="${loggedInUser != null}">
+                <span class="user-info">
+                    Welcome, <strong th:text="${loggedInUser}">Seller</strong>
+                    <span class="user-type">(Seller)</span>
+                </span>
+            </li>
+            <li><a href="/logout" class="btn-logout">Logout</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="hero-section">
+        <h2>Manage Your Products</h2>
+        <p>Add new products or remove existing ones.</p>
+    </div>
+
+    <div th:if="${successMessage}" class="alert alert-success">
+        <span th:text="${successMessage}">Success message</span>
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-error">
+        <span th:text="${errorMessage}">Error message</span>
+    </div>
+
+    <div class="manage-grid">
+        <section class="panel">
+            <h3 class="panel-title">Add Product</h3>
+            <form action="/seller/products/add" method="post" class="manage-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" type="text" placeholder="Product name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input id="description" name="description" type="text" placeholder="Short description" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input id="price" name="price" type="number" step="0.01" min="0" placeholder="0.00" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock</label>
+                        <input id="stock" name="stock" type="number" step="1" min="0" placeholder="0" required />
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Add product</button>
+                    <a href="/" class="btn-cancel">Back</a>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel">
+            <h3 class="panel-title">Current Products</h3>
+
+            <div th:if="${#lists.isEmpty(products)}" class="no-products">
+                <p>No products available.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(products)}" class="product-list">
+                <div th:each="product : ${products}" class="product-row">
+                    <div class="product-row-main">
+                        <div class="product-row-title">
+                            <strong th:text="${product.name}">Product</strong>
+                            <span class="muted" th:text="'#' + ${product.id}">#0</span>
+                        </div>
+                        <div class="product-row-meta">
+                            <span th:text="'$' + ${product.price}">$0.00</span>
+                            <span class="muted" th:text="'Stock: ' + ${product.stock}">Stock: 0</span>
+                        </div>
+                        <div class="product-row-desc muted" th:text="${product.description}">Description</div>
+                    </div>
+                    <form th:action="@{'/seller/products/' + ${product.id} + '/delete'}" method="post">
+                        <button type="submit" class="btn-danger" onclick="return confirm('Remove this product?');">
+                            Remove
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2026 E-Commerce Store. All rights reserved.</p>
+</footer>
+</body>
+</html>
+

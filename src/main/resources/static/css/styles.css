@@ -389,6 +389,90 @@ body {
     margin-top: 50px;
 }
 
+/* Seller product management */
+.manage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.panel {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.panel-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.manage-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 14px;
+    background: #fafafa;
+}
+
+.product-row-title {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.product-row-meta {
+    display: flex;
+    gap: 14px;
+    margin-top: 6px;
+    font-weight: 600;
+}
+
+.muted {
+    color: #777;
+    font-weight: 500;
+}
+
+.product-row-desc {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+.btn-danger {
+    background: #d32f2f;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.btn-danger:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar .container {
@@ -412,6 +496,10 @@ body {
 
     .registration-box {
         padding: 20px;
+    }
+
+    .manage-grid {
+        grid-template-columns: 1fr;
     }
 }
 
