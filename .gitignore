@@ -3,6 +3,8 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+node_modules/
+npm-debug.log*
 
 ### STS ###
 .apt_generated
@@ -31,3 +33,53 @@ build/
 
 ### VS Code ###
 .vscode/
+*.code-workspace
+
+### Docker ###
+docker-compose.override.yml
+.docker/
+docker/.env
+
+### Environment Variables ###
+.env
+.env.local
+.env.*.local
+
+### Operating System ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.project
+
+### Logs ###
+*.log
+logs/
+*.gz
+
+### IDE ###
+*.sublime-project
+*.sublime-workspace
+*.code-search
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+h2/
+
+### Temporary Files ###
+*.tmp
+*.bak
+*.backup
+.cache/
+tmp/
+
+### Package Managers ###
+.gradle/
+*.jar.original
+
+### Local Development ###
+.vscode-extensions/
+.local/
